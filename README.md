@@ -31,7 +31,7 @@
 * ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
 * UnityEngine.Texture2D:ReadPixels(Rect, Int32, Int32)
 * ScreenShot:LateUpdate() 
-3.Перевожу с unityвского - вы воспользововались методом, не предназначенным для делания скриншотов!
+3. Перевожу с unityвского - вы воспользововались методом, не предназначенным для делания скриншотов!
 * Это возникает из-за того что я использую LateUpdate()
 * И скриншоты  работают благодаря ScrnCam.Render();
 * Если использовать метод для скриншотов, то скриншот будет браться с основной камеры (больно надо).
