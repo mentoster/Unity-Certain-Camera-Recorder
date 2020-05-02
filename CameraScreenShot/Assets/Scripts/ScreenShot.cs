@@ -65,7 +65,7 @@ public class ScreenShot : MonoBehaviour
    private string ScreenShotName()
    {
        
-       //расположение скриншота + ост инфа
+       //расположение скриншота
        return string.Format($"{dataPath}/" +
                             $"_Number_{scrNumber}_data_" +
                             $"{System.DateTime.Now.ToString("yy-MM-dd_HH-mm-ss")}" +
