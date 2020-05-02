@@ -26,7 +26,7 @@
   Вы так же можете изменить формат записи имени и путь сохранения скриншотов.
   
 ### Ошибки на которые стоит наплевать:
-1.[Ваши кровные враги](https://yadi.sk/i/GJBnVsEFowxMrQ)
+1. [Ваши кровные враги](https://yadi.sk/i/GJBnVsEFowxMrQ)
 2. Таааак, вот что говорит нам эта зверюга:
 * ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
 * UnityEngine.Texture2D:ReadPixels(Rect, Int32, Int32)
