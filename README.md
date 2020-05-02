@@ -1,7 +1,7 @@
 # Unity Certain Camera Screenshot
 
 ### Установка:
-1. Открыть https://github.com/mentoster/Unity-CertainCameraScreenshot/releases
+1. Открыть [релизы](https://github.com/mentoster/Unity-CertainCameraScreenshot/releases)
 2. Скачать пакет ScrnCameraScript.unitypackage при открытом unity.
 3. Разрешить импорт в редакторе unity.
 ### Использование:
