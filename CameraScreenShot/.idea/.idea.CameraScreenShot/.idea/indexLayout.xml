@@ -16,7 +16,6 @@
     <explicitExcludes>
       <Path>.idea</Path>
       <Path>Application.dataPath}</Path>
-      <Path>HiResRecorder</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
       <Path>Temp</Path>

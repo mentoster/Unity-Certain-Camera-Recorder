@@ -1,23 +1,28 @@
 using UnityEngine;
 using System.IO;
 
+public enum QualityCam
+{
+	PNG,JPG
+}
 [RequireComponent(typeof(Camera))]
-public class VideoRecorder : MonoBehaviour {
-	
-
-	public int frameRate = 30;
+public class VideoRecorder : MonoBehaviour
+{
+	public QualityCam QualityOfCam;
 	public RenderTexture VideoTexture;
 	Camera ScrnCam;
 	float Width=Screen.width; 
 	float Height=Screen.height;
 	private string dataPath;
+	public bool UseScreenSize=true;
+
 	#region VideoCapt
+	public int frameRate = 30;
 	bool isCapturing = false;
 	string path;
 	int folderIndex = 0;
 	int imgIndex = 0;
 	float localDeltaTime,prevTime,fixedDeltaTimeCache;
-	
 	#endregion
 
 	private void Awake()
@@ -27,10 +32,19 @@ public class VideoRecorder : MonoBehaviour {
 		ScrnCam = GetComponent<Camera>();
 		if (VideoTexture == null)
 		{
-			Debug.Log("Создайте текстуру для рендера!");
+			Debug.Log("Создайте текстуру для рендера! \n Create a texture for the render!");
 		}
-		Width = VideoTexture.width;
-		Height = VideoTexture.height;
+		if (!UseScreenSize)
+		{
+			Width = VideoTexture.width;
+			Height = VideoTexture.height;
+		}
+		else
+		{
+			VideoTexture.width = (int) Width;
+			VideoTexture.height = (int) Height;
+		}
+
 		ScrnCam.gameObject.SetActive(false);
 		//если нет директории сохранения файла
 		bool exists = System.IO.Directory.Exists(dataPath);
@@ -63,12 +77,23 @@ public class VideoRecorder : MonoBehaviour {
 		
 		if (ScrnCam.gameObject.activeInHierarchy){
 			localDeltaTime = Time.realtimeSinceStartup - prevTime;
-			prevTime = Time.realtimeSinceStartup;
+			prevTime = Time.realtimeSinceStartup;	
+			Texture2D Shot = ToTexture2D(VideoTexture);
 			//перевод текстуры в картинку
-			Texture2D Shot =ToTexture2D(VideoTexture);
-			byte[] bytes = Shot.EncodeToPNG();
-			string filename = path+imgIndex.ToString("D8")+".png";
-			File.WriteAllBytes(filename, bytes);
+			if ( QualityOfCam == QualityCam.PNG)
+			{
+				byte[] bytes = Shot.EncodeToPNG();
+				string filename = path+imgIndex.ToString("D8")+".png";
+				File.WriteAllBytes(filename, bytes);
+			}
+			else
+			{
+				byte[] bytes = Shot.EncodeToJPG();
+				string filename = path+imgIndex.ToString("D8")+".jpg";
+				File.WriteAllBytes(filename, bytes);
+			}
+			//декодируем в png, для наивышего качества
+		
 			imgIndex+=1;
 			Time.timeScale = 1.0f/localDeltaTime/frameRate;
 			//Time.fixedDeltaTime = fixedDeltaTimeCache / Time.timeScale;
