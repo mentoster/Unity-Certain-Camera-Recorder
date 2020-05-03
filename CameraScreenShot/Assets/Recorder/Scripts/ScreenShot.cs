@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.MemoryProfiler;
-using UnityEngine;
+﻿using UnityEngine;
 //разрешаем использовать скрипт только на камере 
 [RequireComponent(typeof(Camera))]
 public class ScreenShot : MonoBehaviour
@@ -22,7 +18,6 @@ public class ScreenShot : MonoBehaviour
            
            ScrnCam.targetTexture=new RenderTexture(Width,Height,(int) ScrnCam.depth);
        }
-       
        ScrnCam.gameObject.SetActive(false);
        //если нет директории сохранения файла
        bool exists = System.IO.Directory.Exists(dataPath);
@@ -34,8 +29,7 @@ public class ScreenShot : MonoBehaviour
    {
        ScrnCam.gameObject.SetActive(true);
    }
-
-   private void LateUpdate()
+   private void  LateUpdate()
    {
        //проверяем, включена ли камера
        if (ScrnCam.gameObject.activeInHierarchy)
@@ -67,7 +61,7 @@ public class ScreenShot : MonoBehaviour
        
        //расположение скриншота
        return string.Format($"{dataPath}/" +
-                            $"_Number_{scrNumber}_data_" +
+                            $"Number_{scrNumber}_data_" +
                             $"{System.DateTime.Now.ToString("yy-MM-dd_HH-mm-ss")}" +
                             $"_screen_{Width}x{Height}.png");
 
