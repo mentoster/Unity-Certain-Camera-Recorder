@@ -15,7 +15,8 @@ public class VideoRecorder : MonoBehaviour
 	float Height=Screen.height;
 	private string dataPath;
 	public bool UseScreenSize=true;
-
+	public bool MakeFreezingForCinema = true;
+	public bool AlwaysOn = false;
 	#region VideoCapt
 	public int frameRate = 30;
 	bool isCapturing = false;
@@ -44,7 +45,7 @@ public class VideoRecorder : MonoBehaviour
 			VideoTexture.width = (int) Width;
 			VideoTexture.height = (int) Height;
 		}
-
+       if(!AlwaysOn)
 		ScrnCam.gameObject.SetActive(false);
 		//если нет директории сохранения файла
 		bool exists = System.IO.Directory.Exists(dataPath);
@@ -68,9 +69,13 @@ public class VideoRecorder : MonoBehaviour
 				Directory.CreateDirectory(path);
 			path = path + "/";
 		} else {
+			if(!AlwaysOn)
 			ScrnCam.gameObject.SetActive(false);
-			Time.timeScale = 1f;
-			//Time.fixedDeltaTime = fixedDeltaTimeCache;
+			if (MakeFreezingForCinema)
+			{
+				Time.timeScale = 1f;
+				//Time.fixedDeltaTime = fixedDeltaTimeCache;
+			}
 		}
 	}
 	void LateUpdate () {
@@ -95,8 +100,11 @@ public class VideoRecorder : MonoBehaviour
 			//декодируем в png, для наивышего качества
 		
 			imgIndex+=1;
-			Time.timeScale = 1.0f/localDeltaTime/frameRate;
-			//Time.fixedDeltaTime = fixedDeltaTimeCache / Time.timeScale;
+			if (MakeFreezingForCinema)
+			{
+				//Time.timeScale = 1.0f/localDeltaTime/frameRate;
+				//Time.fixedDeltaTime = fixedDeltaTimeCache / Time.timeScale;
+			}
 		}
 	}
 	//переводим из RenderTexture в Texture2D
