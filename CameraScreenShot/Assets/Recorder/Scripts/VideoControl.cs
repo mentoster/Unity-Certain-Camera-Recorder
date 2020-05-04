@@ -11,7 +11,7 @@ public class VideoControl : MonoBehaviour
     {
         if (Input.GetKeyDown(MakeVideoButton))
         {
-            //начинаем запись видео
+            //start recording video
             _videoRecorder.MakeVideo();
         }
     }

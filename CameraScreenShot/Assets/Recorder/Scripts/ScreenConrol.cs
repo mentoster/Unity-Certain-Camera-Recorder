@@ -11,10 +11,10 @@ public class ScreenConrol : MonoBehaviour
 
     private void Update()
     {
-        //Кнопка для нажатия
+        //Button to press
         if (Input.GetKeyDown(MakeScreenShotButton))
         {
-            //делаем скриншот
+            //take screenshot
             _screenShot.MakeScrn();
         }
     }

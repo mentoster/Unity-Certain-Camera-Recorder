@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-//разрешаем использовать скрипт только на камере 
-[RequireComponent(typeof(Camera))]
 public class ScreenShot : MonoBehaviour
 {
 
@@ -19,7 +17,7 @@ public class ScreenShot : MonoBehaviour
            ScrnCam.targetTexture=new RenderTexture(Width,Height,(int) ScrnCam.depth);
        }
        ScrnCam.gameObject.SetActive(false);
-       //если нет директории сохранения файла
+       //if there is no file save directory
        bool exists = System.IO.Directory.Exists(dataPath);
        if (!exists)
            System.IO.Directory.CreateDirectory(dataPath);
@@ -31,26 +29,25 @@ public class ScreenShot : MonoBehaviour
    }
    private void  LateUpdate()
    {
-       //проверяем, включена ли камера
        if (ScrnCam.gameObject.activeInHierarchy)
        {
-           //если включена, создаем 2д текстуру png
+           //if enabled, create a 2D texture png
+           
            Texture2D Shot = new Texture2D(Width,Height,TextureFormat.RGB24,false);
-           //говорим камере сгенерировать текстуру,
-           //потому что пока она на самом деле еще не срендерена
+           //tell the camera to generate a texture
+           //because while it is not really rendered yet
            ScrnCam.Render();
            RenderTexture.active = ScrnCam.targetTexture;
            
            Shot.ReadPixels(new Rect(0, 0, Width, Height), 0, 0);
-           //формируем получченный массив байтов в картинку формата PNG
+           //form the resulting array of bytes into a PNG image
            byte[] bytes = Shot.EncodeToPNG();
            
-           //формируем имя скриншота
-          
+           //name of the screenshot
            string filename = ScreenShotName();
            scrNumber++;
            System.IO.File.WriteAllBytes(filename, bytes);
-           //Скриншот Успешно Сделан!
+           //Done!
            Debug.Log($"Sreenshot taken with Width - {Width} and Height - {Height}, {scrNumber} ");
            ScrnCam.gameObject.SetActive(false);
        }
@@ -59,7 +56,7 @@ public class ScreenShot : MonoBehaviour
    private string ScreenShotName()
    {
        
-       //расположение скриншота
+       //Path
        return string.Format($"{dataPath}/" +
                             $"Number_{scrNumber}_data_" +
                             $"{System.DateTime.Now.ToString("yy-MM-dd_HH-mm-ss")}" +
