@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.IO;
-using UnityEngine.Serialization;
 
 public enum QualityCam
 {
@@ -13,7 +12,8 @@ public class VideoRecorder : MonoBehaviour
 	public QualityCam QualityOfCam;
 	public bool UseScreenSize=true;
 	public bool MakeFreezingForCinema = true; 
-    public bool RecordAlwaysOn;
+    public bool RecordAlwaysOn=false;
+    public bool RecordOnlyMainScreen=false;
 	#endregion
 	private string dataPath;
 	Camera ScrnCam;
@@ -48,30 +48,23 @@ public class VideoRecorder : MonoBehaviour
 			VideoTexture.width = (int) Width;
 			VideoTexture.height = (int) Height;
 		}
-
-		if (!RecordAlwaysOn)
-		{
-			ScrnCam.gameObject.SetActive(false);
-		}
 		//if there is no file save directory
 		//we will make it
 		bool exists = System.IO.Directory.Exists(dataPath);
 		if (!exists) 
 			System.IO.Directory.CreateDirectory(dataPath);
 	}
-	void Start () {
+	void Start () { 
 		//  for rendering, after changing the scene
-			DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
 		fixedDeltaTimeCache = Time.fixedDeltaTime;
-		if (!RecordAlwaysOn)
+		if (RecordAlwaysOn)
 			MakeVideo();
 	}
 	
 	public void MakeVideo()
 	{
-		if (!RecordAlwaysOn)
-		{
-			isCapturing = !isCapturing;
+		isCapturing = !isCapturing;
 			if (isCapturing)
 			{
 				ScrnCam.gameObject.SetActive(true);
@@ -84,7 +77,6 @@ public class VideoRecorder : MonoBehaviour
 			}
 			else
 			{
-
 				ScrnCam.gameObject.SetActive(false);
 				if (MakeFreezingForCinema)
 				{
@@ -93,32 +85,42 @@ public class VideoRecorder : MonoBehaviour
 				}
 
 			}
-		}
+		
 	}
 	void LateUpdate () {
-		if (ScrnCam.gameObject.activeInHierarchy){
+		if (isCapturing)
+		{	
 			localDeltaTime = Time.realtimeSinceStartup - prevTime;
-			prevTime = Time.realtimeSinceStartup;	
-			Texture2D Shot = ToTexture2D(VideoTexture);
-			//transform Texture Into Picture
-			if ( QualityOfCam == QualityCam.PNG)
+			prevTime = Time.realtimeSinceStartup;
+			if (!RecordOnlyMainScreen)
 			{
-				byte[] bytes = Shot.EncodeToPNG();
-				string filename = path+imgIndex.ToString("D8")+".png";
-				File.WriteAllBytes(filename, bytes);
+				Texture2D Shot = ToTexture2D(VideoTexture);
+				//transform Texture Into Picture
+				if (QualityOfCam == QualityCam.PNG)
+				{
+					byte[] bytes = Shot.EncodeToPNG();
+					string filename = path + imgIndex.ToString("D8") + ".png";
+					File.WriteAllBytes(filename, bytes);
+				}
+				else
+				{
+					byte[] bytes = Shot.EncodeToJPG();
+					string filename = path + imgIndex.ToString("D8") + ".jpg";
+					File.WriteAllBytes(filename, bytes);
+				}
 			}
+
 			else
 			{
-				byte[] bytes = Shot.EncodeToJPG();
-				string filename = path+imgIndex.ToString("D8")+".jpg";
-				File.WriteAllBytes(filename, bytes);
+				ScreenCapture.CaptureScreenshot(path+imgIndex.ToString("D8")+".png");
 			}
-			imgIndex+=1;
-			if (MakeFreezingForCinema)
-			{
-				Time.timeScale = 1.0f/localDeltaTime/frameRate;
-				//Time.fixedDeltaTime = fixedDeltaTimeCache / Time.timeScale;
-			}
+			imgIndex += 1;
+				if (MakeFreezingForCinema)
+				{
+					Time.timeScale = 1.0f / localDeltaTime / frameRate;
+					//Time.fixedDeltaTime = fixedDeltaTimeCache / Time.timeScale;
+				}
+			
 		}
 	}
 	//from RenderTexture to Texture2D

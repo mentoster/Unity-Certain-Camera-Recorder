@@ -11034,6 +11034,11 @@ PrefabInstance:
       propertyPath: RecordAlwaysOn
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8698702305771576500, guid: e1dc5e1aa1b832d45b8aeb2267a3fce9,
+        type: 3}
+      propertyPath: RecordOnlyMainScreen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8698702306325612611, guid: e1dc5e1aa1b832d45b8aeb2267a3fce9,
         type: 3}
       propertyPath: m_LocalPosition.x
