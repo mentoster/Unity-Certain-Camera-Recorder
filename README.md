@@ -5,7 +5,7 @@
 2. Download the RecorderScript.unitypackage package when unity is open.
 3. Allow import in the unity editor. (If you don't need a camera controller, disable Ghost script import)
 
-### How use:
+### How to use it:
 1. Drag the video or screenshot camera's prefab to the scene.
 2. If  u need to change the buttons in the controllers, u can do it.
 3. Launch the scene and click the appropriate button. (C-for screenshot, V-for video, by default)
