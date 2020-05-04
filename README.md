@@ -29,6 +29,7 @@
 * If you use the method for screenshots, the screenshot will be taken from the main camera, it can be bad, if u want to take screenshot from another camera.
 4. I haven't figured out how to tell unity to stop displaying the error yet, so I suggest you put up with it for now.
 
+## Rus readme
 ### Установка:
 1. Открыть [релизы](https://github.com/mentoster/Unity-CertainCameraScreenshot/releases)
 2. Скачать пакет RecorderScript.unitypackage при открытом unity.
