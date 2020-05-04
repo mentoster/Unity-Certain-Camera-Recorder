@@ -1,7 +1,7 @@
 # Unity Certain Camera Recorder
 
 ### Installation:
-1. Open [releases] (https://github.com/mentoster/Unity-CertainCameraScreenshot/releases)
+1. Open [releases](https://github.com/mentoster/Unity-CertainCameraScreenshot/releases)
 2. Download the RecorderScript.unitypackage package when unity is open.
 3. Allow import in the unity editor. (If you don't need a camera controller, disable Ghost script import)
 
@@ -18,7 +18,7 @@
 * You can also change  a  recording name and the path to save screenshots (videos).
 
 ### Mistakes that should be ignored:
-1. [monsters from Doom] (https://yadi.sk/i/GJBnVsEFowxMrQ)
+1. [monsters from Doom](https://yadi.sk/i/GJBnVsEFowxMrQ)
 2. Sooooo, here's what this beast tells us:
 * ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
 * UnityEngine.Texture2D:ReadPixels(Rect, Int32, Int32)
