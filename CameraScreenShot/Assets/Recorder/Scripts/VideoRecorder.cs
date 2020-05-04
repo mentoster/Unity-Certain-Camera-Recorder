@@ -13,9 +13,9 @@ public class VideoRecorder : MonoBehaviour
 	public QualityCam QualityOfCam;
 	public bool UseScreenSize=true;
 	public bool MakeFreezingForCinema = true; 
-    public bool RecordAlwaysOn = false;
+    public bool RecordAlwaysOn;
 	#endregion
-	private string dataPath=$"{Application.dataPath}/Video/";
+	private string dataPath;
 	Camera ScrnCam;
 	float Width=Screen.width; 
 	float Height=Screen.height;
@@ -31,10 +31,12 @@ public class VideoRecorder : MonoBehaviour
 
 	private void Awake()
 	{
+		
+	    dataPath=$"{Application.dataPath}/Video/";
 		ScrnCam = GetComponent<Camera>();
 		if (VideoTexture == null)
 		{
-			Debug.Log("reate a texture for the render!");
+			Debug.Log("Create a texture for the render!");
 		}
 		if (!UseScreenSize)
 		{
@@ -46,8 +48,11 @@ public class VideoRecorder : MonoBehaviour
 			VideoTexture.width = (int) Width;
 			VideoTexture.height = (int) Height;
 		}
-        if(!RecordAlwaysOn)
-		ScrnCam.gameObject.SetActive(false);
+
+		if (!RecordAlwaysOn)
+		{
+			ScrnCam.gameObject.SetActive(false);
+		}
 		//if there is no file save directory
 		//we will make it
 		bool exists = System.IO.Directory.Exists(dataPath);
@@ -56,28 +61,37 @@ public class VideoRecorder : MonoBehaviour
 	}
 	void Start () {
 		//  for rendering, after changing the scene
-		//	DontDestroyOnLoad(this.gameObject);
+			DontDestroyOnLoad(this.gameObject);
 		fixedDeltaTimeCache = Time.fixedDeltaTime;
+		if (!RecordAlwaysOn)
+			MakeVideo();
 	}
 	
 	public void MakeVideo()
 	{
-		isCapturing = !isCapturing;
-		if (isCapturing) {
-			ScrnCam.gameObject.SetActive(true);
-			folderIndex+=1;
-			imgIndex = 0;
-			path = dataPath+"IMG Sequence "+folderIndex;
-			if (Directory.Exists(path)==false) 
-				Directory.CreateDirectory(path);
-			path = path + "/";
-		} else {
-			if(!RecordAlwaysOn)
-			ScrnCam.gameObject.SetActive(false);
-			if (MakeFreezingForCinema)
+		if (!RecordAlwaysOn)
+		{
+			isCapturing = !isCapturing;
+			if (isCapturing)
 			{
-				Time.timeScale = 1f;
-				//Time.fixedDeltaTime = fixedDeltaTimeCache;
+				ScrnCam.gameObject.SetActive(true);
+				folderIndex += 1;
+				imgIndex = 0;
+				path = dataPath + "IMG Sequence " + folderIndex;
+				if (Directory.Exists(path) == false)
+					Directory.CreateDirectory(path);
+				path = path + "/";
+			}
+			else
+			{
+
+				ScrnCam.gameObject.SetActive(false);
+				if (MakeFreezingForCinema)
+				{
+					Time.timeScale = 1f;
+					//Time.fixedDeltaTime = fixedDeltaTimeCache;
+				}
+
 			}
 		}
 	}
@@ -102,7 +116,7 @@ public class VideoRecorder : MonoBehaviour
 			imgIndex+=1;
 			if (MakeFreezingForCinema)
 			{
-				//Time.timeScale = 1.0f/localDeltaTime/frameRate;
+				Time.timeScale = 1.0f/localDeltaTime/frameRate;
 				//Time.fixedDeltaTime = fixedDeltaTimeCache / Time.timeScale;
 			}
 		}

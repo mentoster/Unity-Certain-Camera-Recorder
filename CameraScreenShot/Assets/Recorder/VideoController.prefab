@@ -87,8 +87,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e6219fb4f054ceab418e5f97629a46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameRate: 30
   VideoTexture: {fileID: 8400000, guid: 65865a97032bd1945a330fe8101156d3, type: 2}
+  QualityOfCam: 0
+  UseScreenSize: 1
+  MakeFreezingForCinema: 1
+  RecordAlwaysOn: 0
+  frameRate: 30
 --- !u!1 &8698702306325612621
 GameObject:
   m_ObjectHideFlags: 0
